@@ -27,8 +27,17 @@ console.log(course); //works fine, course is global
 //console.log(student); //does not work, can't access a block variable outside the block
                     
 let selectElem = document.getElementById('webdevlist');
+
 selectElem.addEventListener('change', function(){
     let codeValue = selectElem.value;
     console.log(codeValue);
     document.getElementById(codeValue).style.color = 'red';
 })
+
+const image = document.querySelector('img'); 
+image.setAttribute('src', 'images/logos.webp');
+image.setAttribute('alt', 'New logo with watermark');
+
+//document.body.className = 'blue';
+
+document.body.style.backgroundColor = 'lightblue';
