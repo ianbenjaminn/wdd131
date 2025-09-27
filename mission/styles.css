@@ -59,3 +59,22 @@ footer img {
   max-width: 120px;
   height: auto;
 }
+
+body.dark {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+body.dark .card {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+body.dark header h2 {
+  color: #66aaff;
+}
+
+body.dark header hr {
+  border-top: 1px solid #444;
+}
