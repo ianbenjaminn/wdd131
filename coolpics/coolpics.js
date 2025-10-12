@@ -1,3 +1,7 @@
+console.log('coolpics.js loaded');
+window.addEventListener('error', e => console.log('JS error:', e.message));
+
+
 // ===== Mobile menu toggle =====
 const menuBtn = document.getElementById('menu-toggle');
 const navList = document.getElementById('primary-nav');
