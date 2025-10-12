@@ -11,8 +11,13 @@
 <body>
   <header>
     <h1>Cool Pics 📷</h1>
+
+    <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      ☰ Menu
+    </button>
+
     <nav>
-      <ul>
+      <ul id="primary-nav">
         <li><a href="#">Home</a></li>
         <li><a href="#">People</a></li>
         <li><a href="#">Places</a></li>
@@ -22,25 +27,39 @@
     </nav>
   </header>
 
-
-
   <main>
     <h2>Current Work</h2>
+
+    <!-- Tip: set data-full to the full-size image file name -->
+    <!-- Example uses norris-sm.jpg -> norris.jpg -->
     <div class="gallery">
-      <img src="norris-sm.jpg" alt="Norris Geyser Basin">
-      <img src="norris-sm.jpg" alt="Norris Geyser Basin">
-      <img src="norris-sm.jpg" alt="Norris Geyser Basin">
-      <img src="norris-sm.jpg" alt="Norris Geyser Basin">
-      <img src="norris-sm.jpg" alt="Norris Geyser Basin">
-      <img src="norris-sm.jpg" alt="Norris Geyser Basin">
-      <img src="norris-sm.jpg" alt="Norris Geyser Basin">
-      <img src="norris-sm.jpg" alt="Norris Geyser Basin">
-      <img src="norris-sm.jpg" alt="Norris Geyser Basin">
+      <img src="norris-sm.jpg" data-full="norris-full.jpg" alt="Norris Geyser Basin">
+      <img src="norris-sm.jpg" data-full="norris-full.jpg" alt="Norris Geyser Basin">
+      <img src="norris-sm.jpg" data-full="norris-full.jpg" alt="Norris Geyser Basin">
+      <img src="norris-sm.jpg" data-full="norris-full.jpg" alt="Norris Geyser Basin">
+      <img src="norris-sm.jpg" data-full="norris-full.jpg" alt="Norris Geyser Basin">
+      <img src="norris-sm.jpg" data-full="norris-full.jpg" alt="Norris Geyser Basin">
+      <img src="norris-sm.jpg" data-full="norris-full.jpg" alt="Norris Geyser Basin">
+      <img src="norris-sm.jpg" data-full="norris-full.jpg" alt="Norris Geyser Basin">
+      <img src="norris-sm.jpg" data-full="norris-full.jpg" alt="Norris Geyser Basin">
     </div>
   </main>
+
+  <div id="image-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-caption" hidden>
+    <div class="modal-backdrop" data-close="backdrop">
+      <figure class="modal-content" role="document">
+        <button class="modal-close" aria-label="Close image" data-close="button">×</button>
+        <img id="modal-image" alt="">
+        <figcaption id="modal-caption"></figcaption>
+      </figure>
+    </div>
+  </div>
 
   <footer>
     <p>&copy; 2025 Not a real site 😜</p>
   </footer>
+
+  <script src="coolpics.js" defer></script>
 </body>
+
 </html>
