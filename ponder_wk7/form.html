@@ -1,73 +1,96 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Checkout Form</title>
     <link rel="icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="form.css"/>
-    <script src="form.js" defer></script>
+    <link rel="stylesheet" href="form.css">
   </head>
   <body>
     <header><h1>Checkout</h1></header>
+
     <main>
-      <section class="errors"></section>
-      <form id="checkoutForm" action="completed.html" method="get">
+      <!-- Error + Success regions -->
+      <section class="errors" aria-live="assertive" role="alert"></section>
+      <section class="success" aria-live="polite" role="status"></section>
+
+      <form id="checkoutForm" action="completed.html" method="get" novalidate>
         <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" name="fullName" required>
+        <input type="text" id="fullName" name="fullName" autocomplete="name" required>
+
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="email@email.com" required>
+        <input type="email" id="email" name="email"
+               placeholder="email@email.com" autocomplete="email" required>
+
         <label for="address">Address:</label>
-        <textarea id="address" name="address" rows="4" required></textarea>
+        <textarea id="address" name="address" rows="4" autocomplete="street-address" required></textarea>
+
         <label for="paymentMethod">Payment Method:</label>
-        <select id="paymentMethod" name="paymentMethod" required aria-expanded="false" aria-controls="creditCardnumberContainer paypalUsernameContainer">
-            <option value="">Select Payment Method</option>
-            <option value="creditCard">Credit Card</option>
-            <option value="paypal">PayPal</option>
+        <select id="paymentMethod" name="paymentMethod" required
+                aria-expanded="false"
+                aria-controls="creditCardSection paypalSection">
+          <option value="">Select Payment Method</option>
+          <option value="creditCard">Credit Card</option>
+          <option value="paypal">PayPal</option>
         </select>
 
-        <!-- Container for credit card details -->
-        <p id="creditCardNumberContainer" class="hide" role="region" aria-labelledby="creditCardLabel">
-            <label id="creditCardLabel" for="creditCardNumber">Credit Card Number:</label>
-            <input
-            type="text"
-            id="creditCardNumber"
-            name="creditCardNumber"
-            pattern="[0-9]{16}"
-            placeholder="Enter 16 digits"
-            required
-            />
-            <label for="expirationDate">Expiration</label>
-            <input 
-            type="text" 
-            id="month" 
-            name="expMonth" 
-            placeholder="MM" 
-            aria-labelledby="expirationDate">
-            <input 
-            type="text" 
-            id="year" 
-            name="expYear" 
-            placeholder="YY" 
-            aria-labelledby="expirationDate">
-        </p>
-      
-        <!-- Container for PayPal details -->
-        <p id="paypalUsernameContainer" class="hide" role="region" aria-labelledby="paypalLabel">
-            <label id="paypalLabel" for="paypalUsername">PayPal Username:</label>
-            <input
-            type="text"
-            id="paypalUsername"
-            name="paypalUsername"
-            placeholder="Enter PayPal username"
-            required
-            />
-        </p>
+        <!-- CREDIT CARD -->
+        <section id="creditCardSection" class="hide" role="region" aria-labelledby="creditCardLabel">
+          <div class="card" aria-label="Credit card details">
+            <!-- FRONT -->
+            <div class="card-face card-front" aria-label="Card front">
+              <div class="card-total" aria-hidden="true">TOTAL: $199</div>
+              <div class="card-chip" aria-hidden="true" title="Card chip">💳</div>
+
+              <label id="creditCardLabel" for="creditCardNumber" class="card-label">CARD NUMBER</label>
+              <input
+                type="text"
+                id="creditCardNumber"
+                name="creditCardNumber"
+                inputmode="numeric"
+                autocomplete="cc-number"
+                placeholder="1234 1234 1234 1234"
+                title="Enter 16 digits (spaces or dashes optional)"
+                required
+              />
+
+              <label for="nameOnCard" class="card-label">CARD HOLDER</label>
+              <input type="text" id="nameOnCard" name="nameOnCard" placeholder="John Doe" autocomplete="cc-name" />
+
+              <!-- Single label for both month + year via aria-labelledby -->
+              <div id="cardExpiration" class="exp-group">
+                <label for="expirationDate" id="expirationDate" class="card-label">EXPIRATION</label>
+                <input
+                  type="text" id="month" name="expMonth" placeholder="MM" maxlength="2"
+                  aria-labelledby="expirationDate" inputmode="numeric" autocomplete="cc-exp-month">
+                <input
+                  type="text" id="year"  name="expYear"  placeholder="YY" maxlength="2"
+                  aria-labelledby="expirationDate" inputmode="numeric" autocomplete="cc-exp-year">
+              </div>
+            </div>
+
+            <!-- BACK -->
+            <div class="card-face card-back" aria-label="Card back">
+              <div class="mag-strip" aria-hidden="true"></div>
+              <label for="cvc" class="card-label">CVC/CVV</label>
+              <input type="text" id="cvc" name="cvc" placeholder="xxx" maxlength="4"
+                     inputmode="numeric" autocomplete="cc-csc">
+            </div>
+          </div>
+        </section>
+
+        <!-- PAYPAL -->
+        <section id="paypalSection" class="hide" role="region" aria-labelledby="paypalLabel">
+          <label id="paypalLabel" for="paypalUsername">PayPal Username:</label>
+          <input type="text" id="paypalUsername" name="paypalUsername"
+                 placeholder="Enter PayPal username" autocomplete="username">
+        </section>
 
         <button type="submit">Place Order</button>
       </form>
     </main>
+
+    <script src="form.js" defer></script>
   </body>
 </html>
-          

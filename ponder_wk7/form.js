@@ -1,95 +1,156 @@
+// ===== Element refs =====
+const form = document.querySelector('#checkoutForm');
+const paymentSelect = document.querySelector('#paymentMethod');
 
-// get a reference to the form. We can access all the named form inputs through the form element.
-    const theForm = document.querySelector('#checkoutForm');
-    // target the drop down select for aria
-    const paymentSelect = document.querySelector('#paymentMethod');
-    // we will also need the creditCardContainer and paypalUsernameContainer
-    const creditCardContainer = document.querySelector('#creditCardNumberContainer');
-    const paypalContainer = document.querySelector('#paypalUsernameContainer');
-    const creditInput = document.querySelector('#creditCardNumberContainer input');
-    const paypalInput = document.querySelector('#paypalUsernameContainer input');
- 
-function togglePaymentDetails(e) {
-    
-    // Show the container based on the selected payment method, and add the required attribute back.
-        let value = e.target.value; 
-        paypalContainer.classList.add('hide');
-        creditCardContainer.classList.add('hide');
-        paypalInput.required=false; 
-        creditInput.required=false;
-      
-        // hide and show selected payment type
-        if (value == 'creditCard') {
-          creditCardContainer.classList.remove('hide');
-          creditInput.required=true;
-        } else if (value == 'paypal') {
-          paypalContainer.classList.remove('hide');
-          paypalInput.required=true;
-        }
+const creditCardSection = document.querySelector('#creditCardSection');
+const paypalSection     = document.querySelector('#paypalSection');
 
-        // Update ARIA expanded attribute
-        // aria-expanded belongs to the element that toggles visibility, not the hidden content itself.
-        if (value === 'creditCard' || value === 'paypal') {
-          paymentSelect.setAttribute("aria-expanded", "true");
-        } else {
-          paymentSelect.setAttribute("aria-expanded", "false");
-        }
+const cardNumberInput = document.querySelector('#creditCardNumber');
+const paypalInput     = document.querySelector('#paypalUsername');
+const monthInput      = document.querySelector('#month');
+const yearInput       = document.querySelector('#year');
+
+const errorsEl  = document.querySelector('.errors');
+const successEl = document.querySelector('.success');
+
+// ===== Helpers =====
+function displayError(msg)   { errorsEl.textContent  = msg || ''; }
+function displaySuccess(msg) { successEl.textContent = msg || ''; }
+
+// remove ALL non-digits (spaces, hyphens, NBSP, etc.)
+function normalizeDigits(value) {
+  return (value || '').replace(/\D/g, '');
+}
+
+// exact card number check (only this one is valid for the assignment)
+function isExactCardNumber(numDigitsOnly) {
+  return numDigitsOnly === '1234123412341234';
+}
+
+function isValidMonth(mm) {
+  const n = Number(mm);
+  return Number.isInteger(n) && n >= 1 && n <= 12;
+}
+
+// Valid through end of printed month
+function isExpired(mm, yy) {
+  const m = Number(mm);
+  const y = Number(yy);
+  if (!Number.isInteger(m) || !Number.isInteger(y)) return true;
+
+  // boundary = first day of the month after the printed expiry
+  const boundary = new Date(2000 + y, m); // JS month is 0-based; m here is the NEXT month
+  const now = new Date();
+  return now >= boundary;
+}
+
+// ===== Toggle payment details =====
+function togglePaymentDetails(value) {
+  // hide both & remove requireds
+  paypalSection.classList.add('hide');
+  creditCardSection.classList.add('hide');
+  if (paypalInput)     paypalInput.required     = false;
+  if (cardNumberInput) cardNumberInput.required = false;
+
+  // show selected & set requireds
+  if (value === 'creditCard') {
+    creditCardSection.classList.remove('hide');
+    if (cardNumberInput) cardNumberInput.required = true;
+    // focus the first field for convenience
+    cardNumberInput?.focus();
+  } else if (value === 'paypal') {
+    paypalSection.classList.remove('hide');
+    if (paypalInput) paypalInput.required = true;
+    paypalInput?.focus();
   }
 
-// attach a change event handler to the paymentMethod input
-const selectElement = document.getElementById("paymentMethod");
-
-// attach a submit event handler to the form
-selectElement.addEventListener('change', togglePaymentDetails);
-
-//validations and errors
-
-function displayError(msg) {
-	// display error message
-	document.querySelector('.errors').textContent = msg
+  paymentSelect.setAttribute(
+    'aria-expanded',
+    value === 'creditCard' || value === 'paypal' ? 'true' : 'false'
+  );
 }
 
-function isCardNumberValid(number) {
-	// normally we would contact a credit card service...but we don't know how to do that yet. So to keep things simple we will only accept one number
-	return number === '1234123412341234'
-}
+// ===== UX niceties =====
+// Format CC visually as #### #### #### #### while typing
+cardNumberInput?.addEventListener('input', () => {
+  const digits = normalizeDigits(cardNumberInput.value).slice(0, 16);
+  cardNumberInput.value = digits.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+});
 
-function submitHandler(event) {
-	event.preventDefault();
+// Auto-advance MM -> YY, and restrict to digits
+monthInput?.addEventListener('input', (e) => {
+  const v = normalizeDigits(e.target.value).slice(0, 2);
+  e.target.value = v;
+  if (v.length === 2) yearInput?.focus();
+});
+yearInput?.addEventListener('input', (e) => {
+  e.target.value = normalizeDigits(e.target.value).slice(0, 2);
+});
+
+// Initialize UI on load (prevents “nothing shown” state)
+document.addEventListener('DOMContentLoaded', () => {
+  togglePaymentDetails(paymentSelect.value);
+});
+
+// Change handler
+paymentSelect.addEventListener('change', (e) => {
+  togglePaymentDetails(e.target.value);
+});
+
+// ===== Submit =====
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  displayError('');
+  displaySuccess('');
+
   let errorMsg = '';
-	displayError('');
 
-  let cardNumber = document.querySelector('#creditCardNumber');
-  const cardNum = cardNumber.value.trim();
+  // If credit card is chosen, validate the card number + expiry
   if (paymentSelect.value === 'creditCard') {
-    // Check if it's numeric and valid in one go
-    
-      if (!/^\d{16}$/.test(cardNum)) {
-      errorMsg += 'Card number must be 16 digits\n';
-      } else if (!isCardNumberValid(cardNum)) {
-        errorMsg += 'Card number is not valid\n';
-      }
-    
-    //check date
-    const expYear = Number(document.querySelector('#year').value);   
-    const expMonth = Number(document.querySelector('#month').value);
-    const currentDate = new Date()
+    const rawDigits = normalizeDigits(cardNumberInput.value);
 
-    if (2000 + expYear < currentDate.getFullYear() || (2000 + expYear === currentDate.getFullYear() && expMonth <= (currentDate.getMonth()))
-    ) {
-        errorMsg += 'Card is expired\n';
+    if (rawDigits.length !== 16) {
+      errorMsg += 'Card number must be 16 digits\n';
+    } else if (!isExactCardNumber(rawDigits)) {
+      errorMsg += 'Card number is not valid\n';
+    }
+
+    const mm = monthInput.value;
+    const yy = yearInput.value;
+
+    if (!isValidMonth(mm)) {
+      errorMsg += 'Expiration month must be 01–12\n';
+    }
+    if (!/^\d{2}$/.test(yy)) {
+      errorMsg += 'Expiration year must be two digits (e.g., 27)\n';
+    }
+
+    if (!errorMsg && isExpired(mm, yy)) {
+      errorMsg += 'Card is expired\n';
     }
   }
 
-    if (errorMsg !== '') {
-		// there was an error. stop the form and display the errors.
-		displayError(errorMsg)
-		return;
-    }
-    // Success: show a confirmation message
-    const formContainer = document.getElementById('checkoutForm');
-    formContainer.innerHTML = '<h2>Thank you for your purchase.</h2>';
-}
+  if (errorMsg) {
+    displayError(errorMsg);
+    return;
+  }
+
+  // SUCCESS feedback (keep form on screen; button stays)
+  const name  = (document.querySelector('#fullName')?.value || '').trim();
+  const email = (document.querySelector('#email')?.value || '').trim();
+  const last4 = normalizeDigits(cardNumberInput?.value || '').slice(-4);
+
+  displaySuccess(
+    `Payment approved. Card ending in ${last4}.
+${email ? `A confirmation will be sent to ${email}.` : ''}`
+  );
+
+  // disable the button to prevent double-submit (keep visible)
+  const btn = form.querySelector('button[type="submit"]');
+  if (btn) {
+    btn.textContent = 'Order Placed';
+    btn.style.opacity = '0.85';
+    btn.style.cursor = 'default';
+  }
+});
   
-document.querySelector('#checkoutForm').addEventListener('submit', submitHandler)
-          
