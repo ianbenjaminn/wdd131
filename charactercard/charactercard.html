@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Character Card</title>
+  <link rel="stylesheet" href="charactercard.css" />
+</head>
+<body>
+  <main>
+    <!-- add class="card" so your .card styles apply -->
+    <article id="character-card" class="card">
+      <!-- add class="image" so width:400px applies -->
+      <img id="character-image" class="image" src="./Snortleblat.webp" alt="Character artwork" />
+
+      <!-- add class="name" so the header bar styles apply -->
+      <h2 id="character-name" class="name">Snortleblat</h2>
+
+      <!-- add class="stats" so the text styles apply -->
+      <section class="stats">
+        <p><strong>Class:</strong> <span id="character-class">Swamp Beast Diplomat</span></p>
+        <p><strong>Level:</strong> <span id="character-level">5</span></p>
+        <p><strong>Health:</strong> <span id="character-health">80</span></p>
+      </section>
+
+      <!-- add class="buttons" so buttons center and space correctly -->
+      <div class="buttons">
+        <button id="attackBtn" type="button">Attacked</button>
+        <button id="levelUpBtn" type="button">Level Up</button>
+      </div>
+
+      <div id="live-region" aria-live="polite" class="sr-only"></div>
+    </article>
+  </main>
+
+  <script src="charactercard.js" defer></script>
+</body>
+</html>
