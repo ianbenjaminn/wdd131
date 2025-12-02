@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Living Words Today | Site Plan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Optional fonts, you can remove if you like -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #396e94;
+      --secondary: #aabd8c;
+      --accent1: #e7c24f;
+      --accent2: #381d2a;
+      --accent3: #a43312;
+      --bg: #f7f7f7;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: #222;
+      line-height: 1.6;
+    }
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-family: "Merriweather", serif;
+      font-size: 2rem;
+    }
+    header h2 {
+      margin: 0.25rem 0 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+    header p {
+      margin: 0.1rem;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    main {
+      max-width: 960px;
+      margin: 1.5rem auto 3rem;
+      padding: 0 1rem;
+    }
+    section {
+      background: white;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    h3 {
+      margin-top: 0;
+      font-family: "Merriweather", serif;
+      color: var(--accent2);
+    }
+    h4 {
+      margin-bottom: 0.3rem;
+      margin-top: 1rem;
+      font-family: "Merriweather", serif;
+    }
+    ul {
+      padding-left: 1.25rem;
+    }
+    .colors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    .swatch {
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      color: #fff;
+      font-size: 0.9rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .swatch span {
+      display: block;
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+    .swatch.primary { background: var(--primary); }
+    .swatch.secondary { background: var(--secondary); color: #111; }
+    .swatch.accent1 { background: var(--accent1); color: #111; }
+    .swatch.accent2 { background: var(--accent2); }
+    .swatch.accent3 { background: var(--accent3); }
+    .wireframe {
+      font-style: italic;
+      font-size: 0.95rem;
+      background: #f2f2f2;
+      border-radius: 0.5rem;
+      padding: 0.75rem 0.9rem;
+      border-left: 4px solid var(--accent1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Living Words Today</h1>
+    <h2>Site Plan</h2>
+    <p>Ian Miller</p>
+    <p>WDD 131 – Dynamic Web Fundamentals</p>
+  </header>
+
+  <main>
+    <!-- Overview -->
+    <section id="overview">
+      <h3>Overview</h3>
+
+      <h4>Purpose</h4>
+      <p>
+        The purpose of <strong>Living Words Today</strong> is to provide visitors with a
+        simple, peaceful place to quickly find uplifting scripture passages and quotes
+        from modern prophets and apostles. Each visit (or button click) shows a new quote
+        with its reference and author, helping users get a small spiritual boost during
+        busy days and discover verses or messages they might want to study more deeply.
+      </p>
+
+      <h4>Audience</h4>
+      <p>
+        The target audience includes:
+      </p>
+      <ul>
+        <li>Latter-day Saint students and young adults who want a quick spiritual pickup between classes or work.</li>
+        <li>Members who enjoy inspirational quotes but don’t want to scroll social media to find them.</li>
+        <li>Anyone who wants a clean, distraction-free page of scriptures and prophet quotes that look good on both phone and desktop.</li>
+      </ul>
+      <p>
+        Visitors are comfortable with basic web use (clicking buttons, navigating between
+        pages) but don’t need any technical background.
+      </p>
+
+      <h4>Dynamic Elements (JavaScript)</h4>
+      <ul>
+        <li>
+          <strong>Random quote on load:</strong> On page load, JavaScript selects a random
+          quote object from an array and displays it in the main “Quote of the Day” card
+          (scripture/quote text, reference, and author name plus image).
+        </li>
+        <li>
+          <strong>“New Quote” button:</strong> A button lets the user request another quote
+          without reloading the page. An event listener on the button calls a function that
+          picks a new random quote and updates the DOM.
+        </li>
+        <li>
+          <strong>Quote library filtering (child page):</strong> A separate
+          <em>Quote Library</em> page lists all quotes from an array of objects. Dropdowns or
+          buttons allow filtering by topic (Faith, Hope, Repentance, Charity) and/or author.
+          Array methods like <code>filter</code> and <code>forEach</code> build the list of
+          visible quotes. If no quotes match the filter, a message such as
+          “No quotes found for this topic yet” is displayed.
+        </li>
+        <li>
+          <strong>Data structure &amp; modules:</strong> Quotes are stored as
+          <strong>objects</strong> in an <strong>array</strong>, with properties like
+          <code>text</code>, <code>reference</code>, <code>author</code>, <code>topic</code>,
+          and <code>image</code>. An ES module <code>quotes.js</code> exports the array, and
+          other scripts import it. Multiple functions such as
+          <code>getRandomQuote()</code>, <code>displayQuote()</code>, and
+          <code>filterQuotesByTopic()</code> keep the code organized and show conditional
+          branching.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Branding -->
+    <section id="branding">
+      <h3>Branding</h3>
+
+      <h4>Website Logo</h4>
+      <p>
+        The logo will be a simple wordmark with a small icon:
+        <strong>Living Words Today</strong> with a small open-book or scripture icon to the
+        left of the text. The icon will use the primary blue color, and the text will use a
+        dark accent color. This can be created later as an SVG/PNG or represented as styled
+        text.
+      </p>
+
+      <h4>Color Palette</h4>
+      <p>
+        Palette URL (for reference): <code>https://coolors.co/396e94-e7c24f-a43312-381d2a-aabd8c</code>
+      </p>
+      <div class="colors">
+        <div class="swatch primary">
+          Primary<br />
+          <span>#396E94</span>
+        </div>
+        <div class="swatch secondary">
+          Secondary<br />
+          <span>#AABD8C</span>
+        </div>
+        <div class="swatch accent1">
+          Accent 1<br />
+          <span>#E7C24F</span>
+        </div>
+        <div class="swatch accent2">
+          Accent 2<br />
+          <span>#381D2A</span>
+        </div>
+        <div class="swatch accent3">
+          Accent 3<br />
+          <span>#A43312</span>
+        </div>
+      </div>
+
+      <h4>Typography</h4>
+      <ul>
+        <li><strong>Heading Font:</strong> "Merriweather", serif</li>
+        <li><strong>Paragraph Font:</strong> "Roboto", sans-serif</li>
+      </ul>
+
+      <h4>Normal Paragraph Example</h4>
+      <p>
+        Living Words Today offers a rotating collection of scriptures and prophetic
+        quotes to help visitors feel closer to the Savior in a few short moments each day.
+      </p>
+
+      <h4>Colored Paragraph Example</h4>
+      <p style="color: var(--accent2);">
+        Through simple design and uplifting text, this site encourages quiet reflection
+        rather than distraction—helping users pause, read, and feel inspired.
+      </p>
+    </section>
+
+    <!-- Navigation -->
+    <section id="navigation">
+      <h3>Navigation</h3>
+      <p>The main navigation will appear in the site header on every page:</p>
+      <ul>
+        <li><strong>Home</strong> – Random quote, featured quote card, and quick explanation.</li>
+        <li><strong>Quote Library</strong> – Browsable/filterable list of all quotes and scriptures.</li>
+      </ul>
+      <p>
+        A third optional page (such as an About/Study Helps page) could be added if time
+        permits, but the project will focus on these two required pages.
+      </p>
+    </section>
+
+    <!-- Content -->
+    <section id="content">
+      <h3>Content</h3>
+
+      <h4>Home Page – “Living Words Today”</h4>
+      <ul>
+        <li>
+          <strong>Hero / Quote of the Day card:</strong> Dynamic quote area with scripture
+          or quote text, reference, author name, and a small portrait image. Includes a
+          “New Quote” button that triggers JavaScript to load another random quote.
+        </li>
+        <li>
+          <strong>How it works / About section:</strong> Brief explanation of the site’s
+          purpose—quick spiritual boosts, curated quotes from scriptures and modern
+          prophets—and a note about how topics and authors are tagged and used on the
+          library page.
+        </li>
+        <li>
+          <strong>Topics preview:</strong> Small cards for a few key topics (Faith, Hope,
+          Repentance, Charity) with one-sentence descriptions. Topic cards can link to the
+          Quote Library page with a corresponding topic pre-selected.
+        </li>
+        <li>
+          <strong>Footer:</strong> Disclaimer that the site is a personal project and is not
+          an official website of The Church of Jesus Christ of Latter-day Saints, plus
+          links back to the top or to the Quote Library.
+        </li>
+      </ul>
+
+      <h4>Quote Library Page</h4>
+      <ul>
+        <li>
+          <strong>Page header:</strong> Title “Quote Library” and a short description:
+          “Browse all scriptures and prophetic quotes in one place. Filter by topic or
+          author.”
+        </li>
+        <li>
+          <strong>Filters bar:</strong> Dropdowns or buttons for <em>Topic</em> (All, Faith,
+          Hope, Repentance, Charity, etc.) and <em>Author</em> (All, President Nelson,
+          President Eyring, Elder Holland, etc.). These controls are wired to JavaScript to
+          filter the list.
+        </li>
+        <li>
+          <strong>Quotes grid/list:</strong> Responsive grid or stacked list of quote cards
+          generated by JavaScript. Each card includes quote text, scripture/talk reference,
+          author name, and topic tags.
+        </li>
+        <li>
+          <strong>No-results message:</strong> When filters return zero quotes, show a
+          message like “No quotes match this combination yet. Try another topic or author.”
+        </li>
+        <li>
+          <strong>Footer:</strong> Same footer as the home page for consistency.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Wireframes -->
+    <section id="wireframes">
+      <h3>Wireframes</h3>
+
+      <h4>Home Page Wireframe – “Living Words Today”</h4>
+      <p class="wireframe">
+        Top: full-width header with logo on the left and navigation links (“Home | Quote
+        Library”) on the right. Below the header is a centered “Quote of the Day” card with
+        text, reference, and author image, plus a “New Quote” button under the card. The
+        next section shows a two-column layout on wider screens: left column with a short
+        “How it works” explanation and right column with bullet points about the site’s
+        purpose. A topics preview section displays 3–4 cards in a grid, each with a topic
+        name and one-sentence description. The page ends with a footer bar that includes
+        the disclaimer and a small link back to the top.
+      </p>
+
+      <h4>Quote Library Page Wireframe</h4>
+      <p class="wireframe">
+        Header is identical to the home page (logo and navigation). The top of the page
+        shows the title “Quote Library” and a short description. Directly under that, a
+        filter bar contains a topic dropdown and an optional author dropdown. The main
+        content area is a responsive grid or column of quote cards generated by JavaScript,
+        each displaying the quote text, reference, author, and topic tags. If no quotes
+        match the current filters, a centered message appears below the filters. The page
+        finishes with the same footer used on the home page.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
