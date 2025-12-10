@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Living Words Today | Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Living Words Today provides rotating scriptures and prophetic quotes for a quick spiritual boost." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="wrapper header-inner">
+      <div class="logo">
+        <span class="logo-icon" aria-hidden="true">📖</span>
+        <span class="logo-text">Living Words Today</span>
+      </div>
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="library.html">Quote Library</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="wrapper">
+    <!-- QOTD -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-text">
+        <h1 id="hero-heading">A quiet place for living words</h1>
+        <p>
+          Each visit to Living Words Today shows an uplifting scripture or prophetic quote.
+          Take a brief pause, read, and feel closer to the Savior before diving back into
+          your day.
+        </p>
+        <button type="button" class="btn-primary" id="new-quote-btn">
+          New Quote
+        </button>
+      </div>
+
+      <article class="quote-card" aria-label="Featured quote">
+        <div class="quote-text" id="quote-text">
+          “When we choose to follow Christ, we choose to be changed.”
+        </div>
+        <p class="quote-reference" id="quote-reference">
+          President Russell M. Nelson, October 2020 General Conference
+        </p>
+        <div class="quote-author">
+          <img
+            src="images/nelson-placeholder.jpg"
+            alt="Portrait of President Russell M. Nelson"
+            class="quote-author-image"
+          />
+          <div class="quote-author-details">
+            <span class="quote-author-name" id="quote-author-name">President Russell M. Nelson</span>
+            <span class="quote-author-role">Prophet and President of the Church</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="content-section two-column" aria-labelledby="how-heading">
+      <div>
+        <h2 id="how-heading">How this site works</h2>
+        <p>
+          Living Words Today is a simple personal project that collects scriptures and
+          quotes from modern prophets and apostles. The home page displays a featured
+          quote, while the Quote Library page allows you to browse and filter the entire
+          collection.
+        </p>
+        <p>
+          As you explore, you’ll be able to filter quotes by topic and author and quickly
+          find messages that match your current needs—whether you’re preparing a lesson,
+          looking for a scripture to ponder, or just wanting a spiritual pick-me-up.
+        </p>
+      </div>
+      <div>
+        <h3>Planned features (powered by JavaScript)</h3>
+        <ul class="checklist">
+          <li>Random quote on page load</li>
+          <li>“New Quote” button for instant refresh</li>
+          <li>Quote Library with topic and author filters</li>
+          <li>Quotes stored as objects and loaded via ES modules</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TOPIC PREVIEW -->
+    <section class="content-section" aria-labelledby="topics-heading">
+      <h2 id="topics-heading">Browse by topic</h2>
+      <p>
+        Visit the Quote Library to see all quotes organized by topic. Here are a few of
+        the themes you’ll find:
+      </p>
+
+      <div class="topic-grid">
+        <article class="topic-card">
+          <h3>Faith</h3>
+          <p>
+            Quotes that strengthen trust in Jesus Christ and confidence in His promises.
+          </p>
+        </article>
+        <article class="topic-card">
+          <h3>Hope</h3>
+          <p>
+            Messages that encourage optimism, patience, and trust in God’s timing—even in
+            difficult seasons.
+          </p>
+        </article>
+        <article class="topic-card">
+          <h3>Repentance</h3>
+          <p>
+            Scriptures and teachings about turning to the Savior, changing, and feeling
+            His forgiveness.
+          </p>
+        </article>
+        <article class="topic-card">
+          <h3>Charity</h3>
+          <p>
+            Insights on Christlike love, service, and seeing others as Heavenly Father
+            sees them.
+          </p>
+        </article>
+      </div>
+
+      <p class="centered-link">
+        <a href="library.html" class="btn-outline">Go to Quote Library</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper">
+      <p>
+        Living Words Today is a personal student project and is not an official website of
+        The Church of Jesus Christ of Latter-day Saints.
+      </p>
+      <p class="footer-small">
+        &copy; <span id="year"></span> Ian Miller. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+ <script type="module" src="main.js"></script>
+</body>
+</html>
